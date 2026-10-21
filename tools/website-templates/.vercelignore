@@ -1,0 +1,5 @@
+# The gallery is a static site. The Python files in shared/ are local build tools,
+# and if they are uploaded Vercel mistakes the whole folder for a Python app and
+# fails with "No python entrypoint found".
+*.py
+__pycache__/

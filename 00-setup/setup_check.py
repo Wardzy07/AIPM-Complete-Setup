@@ -51,7 +51,10 @@ def read_env(path):
 
 
 def get(url, timeout=12, headers=None):
-    req = urllib.request.Request(url, headers=headers or {})
+    # Cloudflare (in front of Groq and Resend) blocks Python's default user agent
+    # with a 403 "error code: 1010", which looks exactly like a rejected key.
+    headers = {"User-Agent": "aipm-setup-check/1.0", **(headers or {})}
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=timeout) as r:
         return r.status, r.read().decode("utf-8", "replace")
 
